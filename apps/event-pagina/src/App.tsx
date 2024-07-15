@@ -1,34 +1,51 @@
 import {useState} from 'react'
 import "./assets/fonts/Poppins/Poppins-Medium.ttf";
+import {useMutation, useQuery, useQueryClient} from "react-query";
+import register from "./api/register.ts";
 
-const timeTable = [
+interface TimeTableItem {
+    artist: string
+    desc: string
+    time: string
+}
+
+const timeTable: TimeTableItem[] = [
     {
-        artist: "David Guetta",
-        time: "09:00 - 10:00"
+        artist: "Inloop",
+        desc: "Koffie en thee",
+        time: "12:00 - 13:00"
     },
     {
-        artist: "David Guetta",
-        time: "09:00 - 10:00"
+        artist: "Adam Wathan",
+        desc: "Maker van TailwindCSS",
+        time: "13:00 - 14:00"
     },
     {
-        artist: "David Guetta",
-        time: "09:00 - 10:00"
+        artist: "Tanner Linsley",
+        desc: "Maker van React Query",
+        time: "14:00 - 15:00"
     },
     {
-        artist: "David Guetta",
-        time: "09:00 - 10:00"
+        artist: "Yonatan Sompolinsky",
+        desc: "Maker van Kaspa",
+        time: "15:00 - 16:00"
     },
     {
-        artist: "David Guetta",
-        time: "09:00 - 10:00"
+        artist: "Vegro Awards 2024",
+        desc: "Uitreiking van de Vegro Awards",
+        time: "16:00 - 16:30"
     },
     {
-        artist: "David Guetta",
-        time: "09:00 - 10:00"
+        artist: "Slot met Reinier zonneveld B2B Dj Paul Elstak",
+        desc: "DJ's van het jaar",
+        time: "16:30 - 01:00"
     },
 ]
 
 function App() {
+
+    // Mutations
+    const registerMutation = useMutation('registrations', register)
 
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
@@ -47,22 +64,20 @@ function App() {
                     </div>
                     <div className={"gap-4 flex flex-row max-w-lg"}>
                         {toggleRegister ? (
-                            <a
-                                href={"#"}
+                            <div
                                 onClick={() => setToggleRegister(!toggleRegister)}
-                                className={"bg-primary p-4 text-white rounded-lg"}
+                                className={"bg-primary p-4 text-white rounded-lg cursor-pointer"}
                             >
                                 Meld je nu aan
-                            </a>
+                            </div>
                         ) : (
                             <>
-                                <a
-                                    href={"#"}
+                                <div
                                     onClick={() => setToggleRegister(!toggleRegister)}
-                                    className={"bg-neutral-800 p-4 text-white rounded-lg"}
+                                    className={"bg-neutral-800 cursor-pointer p-4 text-white rounded-lg"}
                                 >
                                     X
-                                </a>
+                                </div>
                                 <input
                                     className={"bg-neutral-200 p-4 rounded-lg"}
                                     placeholder={"Volledige naam?"}
@@ -75,9 +90,12 @@ function App() {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
-                                <a href={"#"} className={"bg-primary p-4 text-white rounded-lg"}>
+                                <div
+                                    className={"bg-primary p-4 text-white rounded-lg cursor-pointer"}
+                                    onClick={() => registerMutation.mutate({name, email})}
+                                >
                                     Verstuur
-                                </a>
+                                </div>
                             </>
                         )}
                     </div>
@@ -89,7 +107,7 @@ function App() {
                             <ul className={"text-lg"}>
                                 <li>Locatie: Vegro HQ</li>
                                 <li>Datum: 17 Juli 2024</li>
-                                <li>Tijd: 09:00 - 17:00</li>
+                                <li>Tijd: 12:00 - 01:00</li>
                             </ul>
                         </div>
                     </div>
@@ -106,10 +124,13 @@ function App() {
                 </div>
 
                 {timeTable.map((item) => (
-                    <div className={"col-span-6 flex flex-row justify-between bg-white p-12 rounded-3xl"}>
-                        <h3>David guetta</h3>
+                    <div className={"col-span-6 flex flex-row justify-between items-center bg-white p-12 rounded-3xl"}>
                         <div>
-                            <p>09:00 - 10:00</p>
+                            <h3 className={"text-lg"}>{item.artist}</h3>
+                            <p className={"text-neutral-600"}>{item.desc}</p>
+                        </div>
+                        <div>
+                            <p>{item.time}</p>
                         </div>
                     </div>
                 ))}
