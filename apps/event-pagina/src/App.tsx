@@ -1,32 +1,42 @@
 import {useState} from 'react'
 import "./assets/fonts/Poppins/Poppins-Medium.ttf";
-import {useMutation} from "react-query";
+import {useMutation, useQuery} from "react-query";
 import register from "./api/register.ts";
 import {timeTable} from "./data.ts";
+import getRegistrations from "./api/getRegistrations.ts";
 
 function App() {
-
-    // Mutations
-    const registerMutation = useMutation('registrations', register)
 
     // State
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
 
-    const [toggleRegister, setToggleRegister] = useState(true)
+    const [toggleRegister, setToggleRegister] = useState(false)
+
+    // Mutations
+    const registerMutation = useMutation('registrations', register, {
+        onSuccess: () => {
+            alert("Je aanmelding is gelukt! We zien je op 17 Juli 2024!")
+            setName("")
+            setEmail("")
+            setToggleRegister(false)
+        }
+    })
+    const registrations = useQuery('registrations', getRegistrations)
 
     return (
-        <div className={"py-32 bg-neutral-100"}>
+        <div className={"py-32 bg-neutral-100 px-4"}>
             <div className={"container mx-auto grid grid-cols-6 gap-8"}>
-                <div className={"bg-white p-12 flex-1 col-span-4 rounded-3xl"}>
+
+                <div className={"bg-white p-12 flex-1 lg:col-span-4 col-span-full rounded-3xl"}>
                     <div className={"mb-8 max-w-lg"}>
                         <h1 className={"text-7xl tracking-tighter mb-2 font-bold"}>Vegro Developer Festival 2024</h1>
                         <p className={"text-lg"}>Dit jaar vieren we het uitgebereide succes van Vegro met een festival
                             voor al onze
                             collega's</p>
                     </div>
-                    <div className={"gap-4 flex flex-row max-w-lg"}>
-                        {toggleRegister ? (
+                    <div className={"gap-4 flex 2xl:flex-row flex-col max-w-lg"}>
+                        {!toggleRegister ? (
                             <div
                                 onClick={() => setToggleRegister(!toggleRegister)}
                                 className={"bg-primary p-4 text-white rounded-lg cursor-pointer"}
@@ -37,7 +47,7 @@ function App() {
                             <>
                                 <div
                                     onClick={() => setToggleRegister(!toggleRegister)}
-                                    className={"bg-neutral-800 cursor-pointer p-4 text-white rounded-lg"}
+                                    className={"bg-neutral-800 self-start cursor-pointer p-4 text-white rounded-lg"}
                                 >
                                     X
                                 </div>
@@ -63,7 +73,8 @@ function App() {
                         )}
                     </div>
                 </div>
-                <div className={"col-span-2 bg-white gap-4 flex flex-col justify-between p-12 rounded-3xl"}>
+
+                <div className={"lg:col-span-2 col-span-full bg-white gap-4 flex flex-col justify-between p-12 rounded-3xl"}>
                     <div>
                         <h2 className={"text-3xl tracking-wide mb-2"}>Informatie</h2>
                         <div>
@@ -76,7 +87,10 @@ function App() {
                     </div>
                     <div>
                         <h2 className={"text-3xl tracking-wide mb-2"}>Aanmeldingen</h2>
-                        <span><b>33</b> mensen hebben zich aangemeled</span>
+                        <span><b>{registrations.data?.length}</b>
+                            {registrations.data && registrations.data?.length > 1 ? " personen hebben " : " persoon heeft "}
+                            zich aangemeld
+                        </span>
                     </div>
                 </div>
                 <div className={"col-span-full"}>
