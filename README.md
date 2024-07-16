@@ -17,4 +17,7 @@ To start developing, run the following command:
 bun dev
 ```
 
+## Swagger (API Documentation)
+Swagger will be available at `http://localhost:3000/swagger`.
+
 That's it!
