@@ -2,58 +2,14 @@ import {useState} from 'react'
 import "./assets/fonts/Poppins/Poppins-Medium.ttf";
 import {useMutation} from "react-query";
 import register from "./api/register.ts";
-
-interface TimeTableItem {
-    artist: string
-    desc: string
-    time: string
-    imgSrc: string
-}
-
-const timeTable: TimeTableItem[] = [
-    {
-        artist: "Inloop",
-        desc: "Koffie en thee",
-        time: "12:00 - 13:00",
-        imgSrc: "/public/coffee.jpg"
-    },
-    {
-        artist: "Adam Wathan",
-        desc: "Maker van TailwindCSS",
-        time: "13:00 - 14:00",
-        imgSrc: "/public/tailwind.png"
-    },
-    {
-        artist: "Tanner Linsley",
-        desc: "Maker van React Query",
-        time: "14:00 - 15:00",
-        imgSrc: "/public/react-query.jpg"
-    },
-    {
-        artist: "Yonatan Sompolinsky",
-        desc: "Maker van Kaspa",
-        time: "15:00 - 16:00",
-        imgSrc: "/public/kaspa.jpg"
-    },
-    {
-        artist: "Vegro Awards 2024",
-        desc: "Uitreiking van de Vegro Awards",
-        time: "16:00 - 16:30",
-        imgSrc: "/public/awards.jpg"
-    },
-    {
-        artist: "Slot met Reinier zonneveld B2B Dj Paul Elstak",
-        desc: "DJ's van het jaar",
-        time: "16:30 - 01:00",
-        imgSrc: "/public/dj.jpg"
-    },
-]
+import {timeTable} from "./data.ts";
 
 function App() {
 
     // Mutations
     const registerMutation = useMutation('registrations', register)
 
+    // State
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
 
@@ -120,10 +76,7 @@ function App() {
                     </div>
                     <div>
                         <h2 className={"text-3xl tracking-wide mb-2"}>Aanmeldingen</h2>
-                        <div className={"flex flex-col"}>
-                            <span>7 artiesten</span>
-                            <span>33 mensen hebben zich aangemeled</span>
-                        </div>
+                        <span><b>33</b> mensen hebben zich aangemeled</span>
                     </div>
                 </div>
                 <div className={"col-span-full"}>

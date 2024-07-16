@@ -1,7 +1,12 @@
 import client from "./client.ts";
 
-const register = async (data: any) => {
-    const res = await client.post('register')
+interface RegisterData {
+    name: string
+    email: string
+}
+
+const register = async (data: RegisterData) => {
+    const res = await client.post('register', data)
 }
 
 export default register;

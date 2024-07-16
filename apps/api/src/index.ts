@@ -6,4 +6,8 @@ app.get('/', (c) => {
     return c.text('Hello Hono!')
 })
 
+app.post('/register', (c) => {
+    return c.text('Hello Hono!')
+})
+
 export default app
