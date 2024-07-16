@@ -1,44 +1,51 @@
 import {useState} from 'react'
 import "./assets/fonts/Poppins/Poppins-Medium.ttf";
-import {useMutation, useQuery, useQueryClient} from "react-query";
+import {useMutation} from "react-query";
 import register from "./api/register.ts";
 
 interface TimeTableItem {
     artist: string
     desc: string
     time: string
+    imgSrc: string
 }
 
 const timeTable: TimeTableItem[] = [
     {
         artist: "Inloop",
         desc: "Koffie en thee",
-        time: "12:00 - 13:00"
+        time: "12:00 - 13:00",
+        imgSrc: "/public/coffee.jpg"
     },
     {
         artist: "Adam Wathan",
         desc: "Maker van TailwindCSS",
-        time: "13:00 - 14:00"
+        time: "13:00 - 14:00",
+        imgSrc: "/public/tailwind.png"
     },
     {
         artist: "Tanner Linsley",
         desc: "Maker van React Query",
-        time: "14:00 - 15:00"
+        time: "14:00 - 15:00",
+        imgSrc: "/public/react-query.jpg"
     },
     {
         artist: "Yonatan Sompolinsky",
         desc: "Maker van Kaspa",
-        time: "15:00 - 16:00"
+        time: "15:00 - 16:00",
+        imgSrc: "/public/kaspa.jpg"
     },
     {
         artist: "Vegro Awards 2024",
         desc: "Uitreiking van de Vegro Awards",
-        time: "16:00 - 16:30"
+        time: "16:00 - 16:30",
+        imgSrc: "/public/awards.jpg"
     },
     {
         artist: "Slot met Reinier zonneveld B2B Dj Paul Elstak",
         desc: "DJ's van het jaar",
-        time: "16:30 - 01:00"
+        time: "16:30 - 01:00",
+        imgSrc: "/public/dj.jpg"
     },
 ]
 
@@ -57,7 +64,7 @@ function App() {
             <div className={"container mx-auto grid grid-cols-6 gap-8"}>
                 <div className={"bg-white p-12 flex-1 col-span-4 rounded-3xl"}>
                     <div className={"mb-8 max-w-lg"}>
-                        <h1 className={"text-7xl tracking-tighter mb-2"}>Vegro Developer Festival 2024</h1>
+                        <h1 className={"text-7xl tracking-tighter mb-2 font-bold"}>Vegro Developer Festival 2024</h1>
                         <p className={"text-lg"}>Dit jaar vieren we het uitgebereide succes van Vegro met een festival
                             voor al onze
                             collega's</p>
@@ -124,13 +131,16 @@ function App() {
                 </div>
 
                 {timeTable.map((item) => (
-                    <div className={"col-span-6 flex flex-row justify-between items-center bg-white p-12 rounded-3xl"}>
-                        <div>
-                            <h3 className={"text-lg"}>{item.artist}</h3>
+                    <div className={"col-span-6 grid grid-cols-6 gap-8 items-center pr-12 bg-white rounded-3xl"}>
+                        <div className={"col-span-2"}>
+                            <img src={item.imgSrc} className={"h-64 w-full object-cover rounded-3xl"}/>
+                        </div>
+                        <div className={"col-span-3"}>
+                            <h3 className={"text-2xl font-bold"}>{item.artist}</h3>
                             <p className={"text-neutral-600"}>{item.desc}</p>
                         </div>
-                        <div>
-                            <p>{item.time}</p>
+                        <div className={"col-span-1 text-right"}>
+                            <span className={"text-lg"}>{item.time}</span>
                         </div>
                     </div>
                 ))}
