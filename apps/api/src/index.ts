@@ -17,18 +17,25 @@ app.get('/', (c) => {
 /**
  * Register a new user
  */
-app.post('/register', async (c) => {
+app.get('/registrations', async (c) => {
+    const users = await client.user.findMany()
+    return c.json(users)
+})
 
+/**
+ * Register a new user
+ */
+app.post('/register', async (c) => {
     const data = await c.req.json()
 
-    await client.user.create({
+    const newUser = await client.user.create({
         data: {
             name: data.name,
             email: data.email
         }
     })
 
-    return c.text('Hello Hono!')
+    return c.json(newUser)
 })
 
 export default app
